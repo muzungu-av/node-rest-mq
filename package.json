@@ -1,0 +1,10 @@
+{
+  "name": "node-rest-mq",
+  "version": "1.0.0",
+  "description": "API для обработки HTTP запросов",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC"
+}
