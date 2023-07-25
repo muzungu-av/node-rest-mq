@@ -17,7 +17,6 @@ app.post("/json", (req, res, next) => {
     res.header("Content-Type", "application/json");
     res.status(200).send({ answer: `I'm worked` });
 });
-/* обработка ошибок */
 
 /* Xml запрос и ответ */
 app.post("/xml", (req, res, next) => {
