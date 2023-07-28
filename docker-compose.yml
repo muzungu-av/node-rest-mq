@@ -21,14 +21,21 @@ services:
     volumes:
       - /etc/localtime:/etc/localtime:ro
       - /var/run/docker.sock:/var/run/docker.sock:ro
+      # чтобы подкл менеджер по 15672  см   https://github.com/docker-library/rabbitmq/issues/260
+      - ./rabbit_enabled_plugins:/etc/rabbitmq/enabled_plugins
       - ./rabbitmq-files/conf/:/etc/rabbitmq/
       - ./rabbitmq-files/data/:/var/lib/rabbitmq/
       - ./rabbitmq-files/log/:/var/log/rabbitmq/
     networks:
-      - rabbitmq_net
+      rabbitmq_net:
+        ipv4_address: 10.5.0.5
 
 networks:
   rabbitmq_net:
     name: rabbitmq_net
     driver: bridge
+    ipam:
+      config:
+        - subnet: 10.5.0.0/16
+          gateway: 10.5.0.1
     internal: true
