@@ -14,8 +14,8 @@ services:
         RABBITMQ_DEFAULT_PASS: "rabbitmq"
         RABBITMQ_DEFAULT_VHOST: "/"
     ports:
-        - "15672:15672"
         - "5672:5672"
+        - "15672:15672"
     labels:
         NAME: "rabbitmq"
     volumes:
@@ -28,14 +28,13 @@ services:
       - ./rabbitmq-files/log/:/var/log/rabbitmq/
     networks:
       rabbitmq_net:
-        ipv4_address: 10.5.0.5
-
+        ipv4_address: "${INNER_IP}"
 networks:
   rabbitmq_net:
     name: rabbitmq_net
     driver: bridge
     ipam:
       config:
-        - subnet: 10.5.0.0/16
-          gateway: 10.5.0.1
+        - subnet: "${INNER_SUBNET_IP}/16"
+        - gateway: "${INNER_GATEWAY_IP}"
     internal: true
