@@ -47,6 +47,9 @@ node_modules/
 jspm_packages/
 */package-lock.json
 package-lock.json
+rabbitmq-files/data/
+rabbitmq-files/conf/enabled_plugins
+rabbitmq-files/log/
 
 # Snowpack dependency directory (https://snowpack.dev/)
 web_modules/
