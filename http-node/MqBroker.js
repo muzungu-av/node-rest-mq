@@ -12,4 +12,11 @@ async function connectQueue() {
     }
 }
 
-module.exports = connectQueue;
+async function sendData(data) {
+    const send = await channel.sendToQueue("muzungu-queue", Buffer.from(JSON.stringify(data)));
+    await channel.close();
+    await connection.close(); 
+    return send;
+}
+
+module.exports = {connectQueue, sendData};

@@ -1,7 +1,7 @@
 const express = require("express");
 const jsonBodyParser = require("body-parser");
 const xmlparser = require('express-xml-bodyparser');
-const connectQueue = require("./MqBroker");
+const { connectQueue, sendData } = require("./MqBroker");
 
 const app = express();
 
@@ -15,11 +15,17 @@ app.post("/json", (req, res, next) => {
     process.stdout.write(`Raw JSON: `); console.log(body); //в строку
     console.log(`Parsed JSON: ` + JSON.stringify(body));
 
-    connectQueue();
-
-    res.header("Content-Type", "application/json");
-    res.status(200).send({ answer: `I'm worked` });
-
+    connectQueue()
+        .then(async () => {
+            const result = await sendData(body);
+            return result;
+        })
+        .then((result) => {
+            const result_msg = "Result of Message sending: " + result;
+            console.log(result_msg);
+            res.header("Content-Type", "application/json");
+            res.status(200).send({ answer: result_msg });
+        });
 });
 
 /* Xml запрос и ответ */
