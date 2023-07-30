@@ -1,6 +1,39 @@
 version: '3.7'
 
 services:
+
+  node_http:
+    depends_on:
+      - node_mq_worker
+    env_file:
+      - ./.env
+    user: "${RUID}:${RGID}"
+    image: arykinv/node_http:latest
+    # image: node_http:latest
+    container_name: node_http
+    restart: unless-stopped
+    networks:
+      rabbitmq_net:
+        ipv4_address: "${HTTP_IP}"
+    ports:
+      - "${HTTP_PORT}:${HTTP_PORT}"
+
+
+  node_mq_worker:
+    depends_on:
+      - rabbitmq
+    env_file:
+      - ./.env
+    user: "${RUID}:${RGID}"
+    image: arykinv/node_mq_worker:latest
+    # image: node_mq_worker:latest
+    container_name: node_mq_worker
+    restart: unless-stopped
+    networks:
+      rabbitmq_net:
+        ipv4_address: "${MQ_IP}"
+
+
   rabbitmq:
     env_file:
       - ./.env
@@ -9,13 +42,13 @@ services:
     container_name: rabbitmq
     restart: unless-stopped
     environment:
-        RABBITMQ_ERLANG_COOKIE: "SWQOKODSQALRPCLNMEQG"
+        RABBITMQ_ERLANG_COOKIE: "WGZYIWFCYQLQIRPYMCBZ"
         RABBITMQ_DEFAULT_USER: "rabbitmq"
         RABBITMQ_DEFAULT_PASS: "rabbitmq"
         RABBITMQ_DEFAULT_VHOST: "/"
     ports:
-        - "5672:5672"
-        - "15672:15672"
+        - "${RABBIT_PORT}:${RABBIT_PORT}"
+        - "${RABBIT_ADM_PORT}:${RABBIT_ADM_PORT}"
     labels:
         NAME: "rabbitmq"
     volumes:
@@ -28,13 +61,13 @@ services:
       - ./rabbitmq-files/log/:/var/log/rabbitmq/
     networks:
       rabbitmq_net:
-        ipv4_address: "${INNER_IP}"
+        ipv4_address: "${RABBIT_IP}"
 networks:
   rabbitmq_net:
     name: rabbitmq_net
     driver: bridge
     ipam:
       config:
-        - subnet: "${INNER_SUBNET_IP}/16"
+        - subnet: "${INNER_SUBNET_IP}/16" 
         - gateway: "${INNER_GATEWAY_IP}"
     internal: true
