@@ -15,8 +15,12 @@
 
 1) NodeJs / Express
 2) RabbitMQ
-3) Контейниризация с Docker / Docker Compose
+3) Контейниризация с Docker / Docker Composer
 
+## Зависимости
+1) Linux
+2) Git
+3) Docker, Docker Composer
 
 
 
