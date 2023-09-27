@@ -16,7 +16,6 @@ async function connectQueue() {
         channel = await connection.createChannel();
         await channel.assertQueue(QUEUE);
         channel.consume(QUEUE, data => {
-            console.log(`${Buffer.from(data.content)}`);
             channel.ack(data);
         })
     } catch (error) {
