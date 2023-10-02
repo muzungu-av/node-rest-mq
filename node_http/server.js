@@ -2,8 +2,10 @@ import express from 'express';
 import jsonBodyParser from 'body-parser';
 import xmlparser from 'express-xml-bodyparser';
 import dotenv from 'dotenv';
+import path from 'path';
 import * as Broker from './MqBroker.js';
 
+const __dirname = path.resolve();
 const HTTP_PORT = `${process.env.HTTP_PORT}`;
 const app = express();
 
@@ -13,7 +15,7 @@ app.use(jsonBodyParser.json());
 
 /* GET */
 app.get("/", (req, res) => {
-    res.send("<h1>The Express server is up and running</h1>");
+    res.sendFile(path.resolve(__dirname, 'static', 'index.html'));
 })
 
 /* Json запрос и ответ */
