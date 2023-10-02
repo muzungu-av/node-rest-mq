@@ -1,10 +1,10 @@
-const express = require("express");
-const jsonBodyParser = require("body-parser");
-const xmlparser = require('express-xml-bodyparser');
-require("dotenv").config();
-const { connectQueue, sendData } = require("./MqBroker");
-const HTTP_PORT=`${process.env.HTTP_PORT}`;
+import express from 'express';
+import jsonBodyParser from 'body-parser';
+import xmlparser from 'express-xml-bodyparser';
+import dotenv from 'dotenv';
+import * as Broker from './MqBroker.js';
 
+const HTTP_PORT=`${process.env.HTTP_PORT}`;
 const app = express();
 
 app.use(xmlparser());
@@ -16,9 +16,9 @@ app.post("/json", (req, res, next) => {
     var body = req.body;
     process.stdout.write(`Raw JSON: `);
 
-    connectQueue()
+    Broker.connectQueue()
         .then(async () => {
-            const result = await sendData(body);
+            const result = await Broker.sendData(body);
             return result;
         })
         .then((result) => {

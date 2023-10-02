@@ -1,8 +1,7 @@
-const amqp = require("amqplib");
+import dotenv from 'dotenv';
+import amqp from 'amqplib';
+
 var channel, connection;
-
-require("dotenv").config();
-
 const RABBIT_IP = `${process.env.RABBIT_IP}`;
 const RABBIT_USER = `${process.env.RABBIT_USER}`;
 const RABBIT_PASS = `${process.env.RABBIT_PASS}`;
@@ -17,6 +16,7 @@ async function connectQueue() {
         await channel.assertQueue(QUEUE);
         channel.consume(QUEUE, data => {
             channel.ack(data);
+
         })
     } catch (error) {
         console.log(error);

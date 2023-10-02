@@ -1,5 +1,5 @@
-const amqp = require("amqplib");
-require("dotenv").config();
+import amqp from 'amqplib';
+import dotenv from 'dotenv';
 
 const QUEUE = `${process.env.QUEUE}`;
 const RABBIT_IP = `${process.env.RABBIT_IP}`;
@@ -24,4 +24,4 @@ async function sendData(data) {
     return send;
 }
 
-module.exports = {connectQueue, sendData};
+export {connectQueue, sendData};
