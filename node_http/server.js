@@ -4,12 +4,17 @@ import xmlparser from 'express-xml-bodyparser';
 import dotenv from 'dotenv';
 import * as Broker from './MqBroker.js';
 
-const HTTP_PORT=`${process.env.HTTP_PORT}`;
+const HTTP_PORT = `${process.env.HTTP_PORT}`;
 const app = express();
 
 app.use(xmlparser());
 app.use(jsonBodyParser.urlencoded({ extended: true }));
 app.use(jsonBodyParser.json());
+
+/* GET */
+app.get("/", (req, res) => {
+    res.send("<h1>The Express server is up and running</h1>");
+})
 
 /* Json запрос и ответ */
 app.post("/json", (req, res, next) => {
