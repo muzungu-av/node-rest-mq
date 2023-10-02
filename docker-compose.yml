@@ -69,5 +69,5 @@ networks:
     ipam:
       config:
         - subnet: "${INNER_SUBNET_IP}/16" 
-        - gateway: "${INNER_GATEWAY_IP}"
+          gateway: "${INNER_GATEWAY_IP}"
     internal: true
