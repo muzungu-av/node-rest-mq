@@ -4,6 +4,7 @@ import xmlparser from 'express-xml-bodyparser';
 import dotenv from 'dotenv';
 import path from 'path';
 import * as Broker from './MqBroker.js';
+import {getDescriptionAboutSystem} from './middleware.js';
 
 const __dirname = path.resolve();
 const HTTP_PORT = `${process.env.HTTP_PORT}`;
@@ -16,6 +17,12 @@ app.use(jsonBodyParser.json());
 /* GET */
 app.get("/", (req, res) => {
     res.sendFile(path.resolve(__dirname, 'static', 'index.html'));
+})
+
+/* our middleware - get info about System */
+app.use(getDescriptionAboutSystem);
+app.get("/about", (req, res) => {
+    res.send(req.description);
 })
 
 /* Json запрос и ответ */

@@ -5,6 +5,7 @@ COPY MqBroker.js /app
 COPY package.json /app
 COPY server.js /app
 COPY /static /app/static
+COPY middleware.js /app
 # RUN --mount
 RUN npm install
 CMD ["node", "/app/server.js"]
